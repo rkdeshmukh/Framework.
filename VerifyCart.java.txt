@@ -1,0 +1,53 @@
+package com.pak.TestMyntra;
+
+import java.util.ArrayList;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.testng.annotations.Test;
+
+import com.pak.base.*;
+
+public class VerifyCart extends TestBase{
+	private WebDriver driver;
+	
+	public void setUp() {
+		driver=getDriver();
+	}
+	
+	@Test
+	public void itemAddToCart() throws InterruptedException
+	{
+		WebElement menuMen = driver.findElement(By.xpath("//a[@href='/shop/men']"));
+	     Actions a=new Actions(driver);
+	     a.moveToElement(menuMen).build().perform();
+	     Thread.sleep(2000);
+	     driver.findElement(By.xpath("//a[@href='/men-tshirts']")).click();
+	     Thread.sleep(2000);
+	    // a.moveToElement(driver.findElement(By.cssSelector("div.sort-sortBy"))).build().perform();
+	     //driver.findElement(By.cssSelector("div.sort-sortBy")).click();
+	     //driver.findElement(By.xpath("//ul[@class='sort-list']/li[1]"));
+	    // Thread.sleep(2000);
+	     WebElement brandFilterSection = driver.findElement(By.xpath("//div[@class='vertical-filters-filters brand-container']"));
+	     brandFilterSection.findElement(By.xpath("//ul[@class='brand-list']/li[1]")).click();
+	     driver.findElement(By.xpath("//ul[@class='results-base']/li[1]")).click();
+	     
+	     ArrayList<String> newTab = new ArrayList<String>(driver.getWindowHandles());
+	     driver.switchTo().window(newTab.get(1));
+	     System.out.println(driver.getTitle());
+	     
+	     driver.findElement(By.xpath("//div[@class='size-buttons-tipAndBtnContainer'][2]")).click();
+	     driver.findElement(By.xpath("//div[contains(@class,'add-to-bag')]")).click();
+	     Thread.sleep(1000);
+	     driver.findElement(By.xpath("//a[@href='/checkout/cart']/span[1]")).click();
+	     Thread.sleep(2000);
+	     boolean item = driver.findElement(By.cssSelector("div.item-base-item")).isDisplayed();
+	     System.out.println(item);
+	     driver.findElement(By.xpath("//button[contains(@class,'wishlistButton')]")).click();
+	}
+	
+	}
+
+
